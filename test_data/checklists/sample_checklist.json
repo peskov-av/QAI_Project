@@ -1,0 +1,18 @@
+{
+  "project": "Demo App",
+  "version": "1.0.0",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "title": "User Registration",
+      "description": "User should be able to register with valid email and password.",
+      "criticality": "High"
+    },
+    {
+      "id": "REQ-2",
+      "title": "PII Protection",
+      "description": "User profile should not display passport number 45 12 123456 or SNILS 123-456-789 01 in plain text logs.",
+      "criticality": "Medium"
+    }
+  ]
+}

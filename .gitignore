@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.env
+.pytest_cache/
+
+# IDEs
+.idea/
+.DS_Store
+
+# Project specific
+file.ignore/
+generated_tests/
+reports/allure-results/
+reports/allure-report/
+reports/logs/
+reports/artifacts/*.json
+reports/artifacts/*.md
+
+# Keep artifacts directory but not the files (optional, depending on your choice)
+# !reports/artifacts/.gitkeep

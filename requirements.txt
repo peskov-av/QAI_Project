@@ -1,0 +1,7 @@
+google-generativeai
+pytest
+allure-pytest
+flake8
+pylint
+python-dotenv
+dataclasses
