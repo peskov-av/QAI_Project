@@ -27,7 +27,10 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install google-generativeai pytest allure-pytest flake8 pylint
+        # ВАЖНО: Устанавливаем из requirements.txt
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        # Дополнительно устанавливаем пакеты для линтинга, если их нет в requirements.txt
+        pip install flake8 pylint allure-pytest
 
     - name: Run AI-Driven QA Pipeline
       env:
@@ -42,12 +45,27 @@ jobs:
         name: qa-pipeline-artifacts
         path: reports/
 
+    - name: Install Allure CLI
+      if: always()
+      run: |
+        # Проблема: sudo apt-get install allure устанавливает НЕПРАВИЛЬНЫЙ пакет
+        # Используем официальную установку
+        wget https://github.com/allure-framework/allure2/releases/download/2.29.0/allure-2.29.0.tgz
+        tar -zxvf allure-2.29.0.tgz
+        sudo mv allure-2.29.0 /opt/allure
+        sudo ln -s /opt/allure/bin/allure /usr/local/bin/allure
+        allure --version
+
     - name: Generate Allure Report
       if: always()
       run: |
-        # Инсталяция allure commandline (пример для ubuntu)
-        sudo apt-get update && sudo apt-get install -y allure
-        allure generate reports/allure-results -o reports/allure-report --clean
+        # Проверяем, существуют ли результаты тестов
+        if [ -d "reports/allure-results" ] && [ "$(ls -A reports/allure-results)" ]; then
+          allure generate reports/allure-results -o reports/allure-report --clean
+          echo "Allure report generated successfully"
+        else
+          echo "No allure-results found, skipping report generation"
+        fi
 
     - name: Upload Allure Report
       if: always()
